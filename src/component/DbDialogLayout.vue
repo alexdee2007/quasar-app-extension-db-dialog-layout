@@ -6,7 +6,7 @@
       <slot name="header">
         <q-toolbar class="bg-primary text-white">
           <q-toolbar-title>{{ context.label }}</q-toolbar-title>
-          <q-btn flat round dense icon="close" v-close-popup />
+          <q-btn flat round dense icon="close" v-close-popup :tabindex="-1" />
         </q-toolbar>
       </slot>
     </q-header>
@@ -33,7 +33,7 @@
     <slot name="header">
       <q-toolbar class="bg-primary text-white">
         <q-toolbar-title>{{ context.label }}</q-toolbar-title>
-        <q-btn flat round dense icon="close" v-close-popup />
+        <q-btn flat round dense icon="close" v-close-popup :tabindex="-1" />
       </q-toolbar>
     </slot>
 
@@ -48,8 +48,9 @@
     <slot name="footer">
       <q-toolbar class="bg-grey-9 text-white" :class="{'fixed-bottom':maximized}" style="z-index:999;">
         <q-space />
-        <q-btn flat label="Очистити" @click="context.clear" />
-        <q-btn label="Застосувати" color="primary" @click="context.apply" :disable="context.disableApply"/>
+        <q-btn v-if="context.cancel" flat label="Скасувати" @click="context.cancel" class="on-left" :disable="context.disableApply" />
+        <q-btn v-if="context.clear" flat label="Очистити" @click="context.clear"  class="on-left" :disable="context.disableClear" />
+        <q-btn v-if="context.apply" label="Застосувати" color="primary" @click="context.apply" :disable="context.disableApply"/>
       </q-toolbar>
     </slot>
 
@@ -62,7 +63,10 @@
   export default {
     name: 'DbDialogLayout',
     props: {
-      context: Object
+      context: {
+        type: Object,
+        default: () => ({})
+      }
     },
     computed: {
       maximized() {
