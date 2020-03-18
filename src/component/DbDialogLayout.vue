@@ -21,8 +21,9 @@
       <slot name="footer">
         <q-toolbar class="bg-grey-9 text-white">
           <q-space />
-          <q-btn flat label="Очистити" @click="context.clear" />
-          <q-btn label="Застосувати" color="primary" @click="context.apply" :disable="context.disableApply"/>
+          <q-btn v-if="context.cancel" flat label="Скасувати" @click="context.cancel" class="on-left" :disable="context.disableApply" />
+          <q-btn v-if="context.clear" flat label="Очистити" @click="context.clear"  class="on-left" :disable="context.disableClear" />
+          <q-btn v-if="context.apply" label="Застосувати" color="primary" @click="context.apply" :disable="context.disableApply"/>
         </q-toolbar>
       </slot>
     </q-footer>
